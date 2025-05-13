@@ -11,10 +11,19 @@ class pelanggan extends Model
 
     protected $table = 'pelanggan'; 
 
-    protected $fillable = ['nama', 'email', 'password', 'alamat', 'telepon', 'role'];
+    protected $fillable = ['user_id',
+    'gambar','alamat', 'telepon', 'role'];
 
     public function transaksi()
     {
         return $this->hasMany(Transaksi::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');  
+    }
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class);
     }
 }

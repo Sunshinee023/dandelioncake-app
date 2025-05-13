@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <a href="/transaksi/create" class="btn btn-primary mb-3">+ Tambah Transaksi</a>
+    <a href="{{ route('admin.transaksi.create') }}" class="btn btn-primary mb-3">+ Tambah Transaksi</a>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover align-middle">
@@ -18,12 +18,10 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Pelanggan</th>
-                    <th>Produk</th> {{-- ✅ Tambahan kolom produk --}}
+                    <th>Produk</th>
                     <th>Tanggal Transaksi</th>
                     <th>Total Harga</th>
                     <th>Status Transaksi</th>
-                    <th>Metode Pembayaran</th>
-                    <th>Status Pembayaran</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -31,10 +29,15 @@
                 @foreach ($transaksi as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->pelanggan->nama ?? 'Tidak Diketahui' }}</td>
-                        <td>{{ $item->product->nama ?? '-' }}</td> {{-- ✅ Tampilkan nama produk --}}
+                        <!-- Nama Pelanggan -->
+                        <td>{{ $item->pelanggan->name ?? 'Tidak Diketahui' }}</td> <!-- Tampilkan nama pelanggan -->
+                        <!-- Nama Produk -->
+                        <td>{{ $item->product->nama_kue ?? '-' }}</td> <!-- Tampilkan nama produk -->
+                        <!-- Tanggal Transaksi -->
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d M Y') }}</td>
-                        <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                        <!-- Total Harga -->
+                        <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td> <!-- Tampilkan total harga -->
+                        <!-- Status Transaksi -->
                         <td>
                             <span class="badge 
                                 @if ($item->status == 'pending') bg-secondary
@@ -45,11 +48,10 @@
                                 {{ ucfirst($item->status) }}
                             </span>
                         </td>
-                        <td>{{ $item->pembayaran->metode_pembayaran ?? '-' }}</td>
-                        <td>{{ $item->pembayaran->status ?? '-' }}</td>
+
                         <td>
-                            <a href="/transaksi/{{ $item->id }}/edit" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="/transaksi/{{ $item->id }}" method="POST" class="d-inline">
+                            <a href="{{ route('admin.transaksi.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('admin.transaksi.destroy', $item->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-sm btn-danger">Hapus</button>

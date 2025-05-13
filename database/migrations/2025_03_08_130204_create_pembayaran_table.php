@@ -11,10 +11,12 @@ return new class extends Migration
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelanggan_id')->constrained('pelanggan')->onDelete('cascade');
+            $table->foreignId('produk_id')->constrained('product')->onDelete('cascade'); 
+            $table->foreignId('transaksi_id')->constrained('transaksi')->onDelete('cascade');
             $table->decimal('total_harga', 15, 2);
             $table->string('metode_pembayaran'); 
             $table->string('alamat_pengiriman');
-            $table->enum('status', ['pending', 'diproses', 'dikirim', 'selesai'])->default('pending');
+            $table->enum('status_pembayaran', ['pending','sudah dibayar', 'belum dibayar'])->default('pending');
             $table->timestamp('tanggal_checkout')->useCurrent();
             $table->timestamps();
         });
@@ -24,4 +26,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('pembayaran');
     }
+
 };

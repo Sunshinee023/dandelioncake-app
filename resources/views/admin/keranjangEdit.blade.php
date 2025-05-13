@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-body">
         <center><h1>EDIT ITEM KERANJANG</h1></center>
-        <form action="/keranjang/{{ $keranjang->id }}" method="post">
+        <form action="{{ route('admin.keranjang.update', $keranjang->id) }}" method="post">
             @csrf
             @method('PUT')
 
@@ -13,7 +13,7 @@
                 <select class="form-select" name="pelanggan_id" id="pelanggan_id">
                     @foreach ($pelanggan as $p)
                         <option value="{{ $p->id }}" {{ $keranjang->pelanggan_id == $p->id ? 'selected' : '' }}>
-                            {{ $p->nama }}
+                            {{ $p->name }}
                         </option>
                     @endforeach
                 </select>
@@ -22,9 +22,9 @@
             <div class="mb-3">
                 <label for="produk_id">Produk</label>
                 <select class="form-select" name="produk_id" id="produk_id">
-                    @foreach ($produk as $p)
+                    @foreach ($product as $p)
                         <option value="{{ $p->id }}" {{ $keranjang->produk_id == $p->id ? 'selected' : '' }}>
-                            {{ $p->nama }}
+                            {{ $p->nama_kue }}
                         </option>
                     @endforeach
                 </select>

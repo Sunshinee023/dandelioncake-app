@@ -1,73 +1,134 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        <!-- Bootstrap CSS CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <!-- Custom Styling -->
+    <style>
+        .cashback-bar {
+    background-color: #f4f4f4;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+.main-navbar {
+    background-color: #F9A7C2; /* Pink Coquette */
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
 
-            <!-- Page Content with Sidebar -->
-            <div class="container-fluid mt-4">
-                <div class="row">
-                    <!-- Sidebar -->
-                    <div class="col-md-3 mb-4">
-                        <div class="bg-white border rounded p-3 shadow-sm">
-                            <h5 class="mb-3">Menu Admin</h5>
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/produk') }}">Manajemen Produk</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/keranjang') }}">Manajemen Keranjang</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/profil') }}">Manajemen Profil</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/transaksi') }}">Manajemen Transaksi</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/pembayaran') }}">Manajemen Pembayaran</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-                    <!-- Main Content -->
-                    <div class="col-md-9">
-                        <main>
-                            {{ $slot }}
-                        </main>
-                    </div>
+.navbar-logo img {
+    height: 100px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex: 1;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #fff; /* White for better contrast on pink */
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.navbar-links a:hover {
+    color: #1e1e1e;
+    font-weight: 500;
+}
+
+.btn-logout {
+    color: white;
+    background-color: #dc3545; /* Bootstrap red */
+    border: none;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background-color: #b02a37; /* darker red */
+}
+
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-100">
+        <!-- Navbar -->
+<!-- Custom Navbar -->
+<nav class="main-navbar">
+    <div class="navbar-container">
+        <!-- Logo -->
+        <a class="navbar-logo">
+            <img src="{{ asset('storage/logo.png') }}" alt="Logo">
+        </a>
+
+        <!-- Menu -->
+        <div class="navbar-links">
+            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ route('admin.produk.index') }}">Manajemen Produk</a>
+            <a href="{{ route('admin.keranjang.index') }}">Manajemen Keranjang</a>
+            <a href="{{ route('admin.transaksi.index') }}">Manajemen Transaksi</a>
+            <a href="{{ route('admin.pembayaran.index') }}">Manajemen Pembayaran</a>
+        </div>
+
+        <!-- Logout -->
+        <div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn-logout">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+        <!-- Optional Page Heading -->
+        @hasSection('header')
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    @yield('header')
+                </div>
+            </header>
+        @endif
+
+                <!-- Main Content -->
+                <div class="col-md-9">
+                    <main>
+                        @yield('content')
+                    </main>
                 </div>
             </div>
         </div>
-
-       
-    </body>
+    </div>
+</body>
 </html>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -18,15 +19,16 @@ class ProductController extends Controller
 
     public function store(Request $request){
         $validated = $request->validate([
+            'gambar' => 'nullable|url',
             'nama_kue' => 'required|string',
             'varian_kue' => 'required|string',
-            'jumlah' => 'required|integer',
+            'stok' => 'required|integer',
             'harga' => 'required|integer',
         ]);
 
         Product::create($validated);
 
-        return redirect('/produk')->with('success', 'Produk berhasil ditambahkan');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil ditambahkan');
     }
 
     public function edit($id) {
@@ -34,24 +36,22 @@ class ProductController extends Controller
         return view('admin.produkEdit', compact('product'));
     }
 
-    public function update(Request $request, $id) {
-        $validated = $request->validate([
-            'nama_kue' => 'required|string',
-            'varian_kue' => 'required|string',
-            'jumlah' => 'required|integer',
-            'harga' => 'required|integer',
-        ]);
+    public function update(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
 
-        $product = Product::findOrFail($id);
-        $product->update($validated);
+    $data = $request->only(['gambar', 'nama_kue', 'varian_kue', 'stok', 'harga']);
 
-        return redirect('/produk')->with('success', 'Produk berhasil diubah');
-    }
+    $product->update($data);
+
+    return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diupdate');
+}
+
 
     public function destroy($id) {
         $product = Product::findOrFail($id);
         $product->delete();
 
-        return redirect('/produk')->with('success', 'Produk berhasil dihapus');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus');
     }
 }

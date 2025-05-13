@@ -1,53 +1,74 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Toko Kue</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-logo img {
+            text-align: center;
+            height: 100px;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body class="bg-light">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email"  />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <div class="card">
+                <a class="navbar-logo text-center">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo">
+                </a>
+                <div class="card-header text-center">
+                    <h4>Selamat Datang!</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email </label>
+                            <input type="email" name="email" class="form-control" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Kata Sandi</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">Ingat saya</label>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <small>&copy; {{ date('Y') }} Toko Kue</small>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+
+</body>
+</html>

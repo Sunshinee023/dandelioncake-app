@@ -4,13 +4,20 @@
 <div class="card">
     <div class="card-body">
         <center><h1>EDIT DATA PROFIL</h1></center>
-        <form action="/profil/{{ $profil->id }}" method="post">
+        <form action="{{ route('admin.profil.update', $profil->id) }}" method="post">
             @csrf
             @method('PUT')
 
+            <!-- Nama User (user_id) -->
             <div class="mb-3">
-                <label for="nama">Nama</label>
-                <input class="form-control" type="text" name="nama" id="nama" value="{{ $profil->nama }}" required>
+                <label for="user_id">Nama User</label>
+                <select class="form-select" name="user_id" id="user_id" required>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" {{ $profil->user_id == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-3">

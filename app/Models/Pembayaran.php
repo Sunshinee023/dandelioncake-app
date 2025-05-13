@@ -13,15 +13,33 @@ class Pembayaran extends Model
 
     protected $fillable = [
         'pelanggan_id',
+        'produk_id',
+        'transaksi_id',
         'total_harga',
         'metode_pembayaran',
         'alamat_pengiriman',
-        'status',
+        'status_pembayaran',
         'tanggal_checkout',
     ];
 
+    
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class, 'pelanggan_id'); 
+    }
+
+    public function getPelangganNameAttribute()
+    {
+        return $this->pelanggan->user->name;  
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class);
     }
 }

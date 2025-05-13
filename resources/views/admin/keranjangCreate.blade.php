@@ -4,14 +4,14 @@
 <div class="card">
     <div class="card-body">
         <center><h1>TAMBAH ITEM KERANJANG</h1></center>
-        <form action="/keranjang" method="post">
+        <form action="{{ route('admin.keranjang.store') }}" method="post">
             @csrf
 
             <div class="mb-3">
                 <label for="pelanggan_id">Pelanggan</label>
                 <select class="form-select" name="pelanggan_id" id="pelanggan_id">
                     @foreach ($pelanggan as $p)
-                        <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                        <option value="{{ $p->id }}">{{ $p->name }}</option> <!-- Nama Pelanggan -->
                     @endforeach
                 </select>
             </div>
@@ -19,8 +19,8 @@
             <div class="mb-3">
                 <label for="produk_id">Produk</label>
                 <select class="form-select" name="produk_id" id="produk_id">
-                    @foreach ($produk as $p)
-                        <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                    @foreach ($product as $p)
+                        <option value="{{ $p->id }}">{{ $p->nama_kue }}</option> <!-- Nama Produk -->
                     @endforeach
                 </select>
             </div>

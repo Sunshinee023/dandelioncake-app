@@ -11,7 +11,8 @@ return new class extends Migration
     {
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('gambar')->nullable();
             $table->text('alamat')->nullable();
             $table->string('telepon')->nullable();
             $table->enum('role', ['admin', 'customer'])->default('customer');

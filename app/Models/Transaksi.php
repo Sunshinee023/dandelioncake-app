@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Product;
+use App\Models\Pelanggan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transaksi extends Model
 {
     use HasFactory;
+    protected $table = 'transaksi';
 
     protected $fillable = [
-        'pelanggan_id', 'pembayaran_id', 'produk_id', 'total_harga', 'status', 'tanggal_transaksi'
+        'pelanggan_id', 
+        'produk_id', 
+        'tanggal_transaksi',
+        'total_harga', 
+        'status', 
     ];
 
     // Define the relation to 'product'
@@ -19,15 +26,15 @@ class Transaksi extends Model
         return $this->belongsTo(Product::class, 'produk_id'); // Assumes 'produk_id' is the foreign key
     }
 
-    // You already have the other relationships:
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
+        return $this->belongsTo(Pelanggan::class, 'pelanggan_id'); // Menghubungkan dengan tabel pelanggan
     }
 
-    public function pembayaran()
+    // Mendapatkan nama pelanggan dari tabel users
+    public function getPelangganNameAttribute()
     {
-        return $this->belongsTo(Pembayaran::class, 'pembayaran_id');
+        return $this->pelanggan->user->name;  // Mengambil nama dari tabel users
     }
 
 }

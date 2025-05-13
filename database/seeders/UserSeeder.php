@@ -5,50 +5,46 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('pelanggan')->insert([
+
+        DB::table('users')->insert([
             [
-                'nama' => 'Admin',
-                'alamat' => 'Jl. Admin No.1',
-                'telepon' => '081234567890',
-                'role' => 'admin',
+                'name' => 'admin',
+                'email' => 'admin@gmail.com', 
+                'password' => Hash::make('admin1234'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                
+            ],
+            [
+                'name' => 'Jaemin',
+                'email' => 'jaemin@gmail.com',
+                'password' => Hash::make('jaemin123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Jaemin',
-                'alamat' => 'Jl. Seoul No.10',
-                'telepon' => '082233445566',
-                'role' => 'customer',
+                'name' => 'Jung Jaehyun',
+                'email' => 'jaehyun@gmail.com',
+                'password' => Hash::make('jaehyun123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Jung Jaehyun',
-                'alamat' => 'Jl. Gangnam No.20',
-                'telepon' => '081223344556',
-                'role' => 'customer',
+                'name' => 'Sim Jaeyun',
+                'email' => 'jaeyun@gmail.com',
+                'password' => Hash::make('jake123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Sim Jaeyun',
-                'alamat' => 'Jl. Busan No.5',
-                'telepon' => '083344556677',
-                'role' => 'customer',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Joong Archen Aydin',
-                'alamat' => 'Jl. Bangkok No.15',
-                'telepon' => '081122334455',
-                'role' => 'customer',
+                'name' => 'Joong Archen Aydin',
+                'email' => 'joong@gmail.com',
+                'password' => Hash::make('archen123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

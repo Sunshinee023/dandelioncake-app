@@ -11,15 +11,21 @@ class Product extends Model
 
     protected $table = 'product';
 
-    protected $fillable = ['nama_kue', 'varian_kue', 'jumlah', 'harga'];
+    protected $fillable = ['gambar', 'nama_kue', 'varian_kue', 'stok', 'harga'];
 
     public function keranjang()
     {
         return $this->hasMany(Keranjang::class);
     }
 
-    public function detailTransaksi()
+    public function transaksi()
     {
-        return $this->hasMany(DetailTransaksi::class);
+        return $this->hasMany(Transaksi::class, 'produk_id');
     }
+
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'produk_id');
+    }
+
 }

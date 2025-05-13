@@ -1,42 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<center><h1 class="mb-5">TABLE PELANGGAN</h1></center>
-@if (session()->has('success'))
-    <div class="alert alert-success">
-      {{ session('success') }}
+    <div class="container">
+        <h1 class="text-center mb-5">TABEL PELANGGAN</h1>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <a href="{{ route('admin.profil.create') }}" class="btn btn-primary mb-3">+ Tambah Data</a>
+
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Foto Profil</th>
+                    <th>Alamat</th>
+                    <th>Telepon</th>
+                    <th>Role</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($profil as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->gambar ?? '-' }}</td>
+                        <td>{{ $item->user->name ?? 'Tidak ditemukan' }}</td> <!-- Menampilkan nama user -->
+                        <td>{{ $item->alamat ?? '-' }}</td>
+                        <td>{{ $item->telepon ?? '-' }}</td>
+                        <td>{{ ucfirst($item->role) }}</td>
+                        <td>
+                            <a href="{{ route('admin.profil.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('admin.profil.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus profil ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Tidak ada data profil.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-@endif
-<a href="/profil/create" class="btn btn-primary mb-2">+Tambah Data</a>
-<table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th scope="col">No</th>
-        <th scope="col">Nama</th>
-        <th scope="col">Alamat</th>
-        <th scope="col">Telepon</th>
-        <th scope="col">Role</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    @foreach ($profil as $item)
-      <tbody>
-        <tr>
-          <th scope="row">{{ $loop->iteration }}</th>
-          <td>{{ $item->nama }}</td>
-          <td>{{ $item->alamat }}</td>
-          <td>{{ $item->telepon }}</td>
-          <td>{{ $item->role }}</td>
-          <td>
-            <a href="/profil/{{ $item->id }}/edit" class="btn btn-warning">Edit</a>
-            <form action="/profil/{{ $item->id }}" method="POST" class="d-inline">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn btn-danger">Hapus</button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    @endforeach
-  </table>
 @endsection
