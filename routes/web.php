@@ -10,6 +10,11 @@ use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\PembayaranController;
+use App\Http\Controllers\User\HalamanUtamaController;
+use App\Http\Controllers\User\KeranjanguserController;
+use App\Http\Controllers\User\PencarianController;
+use App\Http\Controllers\User\ProfileController;
+
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -93,5 +98,21 @@ Route::middleware(['isCustomer'])->prefix('user')->name('user.')->group(function
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+Route::prefix('user')->middleware('auth')->group(function () {
+    // Halaman Utama
+    Route::get('/halaman-utama', [HalamanUtamaController::class, 'index'])->name('user.halaman_utama');
+
+    // Keranjang
+    Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('user.keranjang.index');
+    Route::post('/keranjang', [KeranjanguserController::class, 'store'])->name('user.keranjang.store');
+    Route::delete('/keranjang/{id}', [KeranjanguserController::class, 'destroy'])->name('user.keranjang.destroy');
+
+    // Pencarian
+    Route::get('/pencarian', [PencarianController::class, 'index'])->name('user.pencarian');
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
 });
 
