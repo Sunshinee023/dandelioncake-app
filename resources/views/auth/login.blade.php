@@ -31,7 +31,7 @@
                     <h4>Selamat Datang!</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('auth.login') }}">
                         @csrf
 
                         <div class="mb-3">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="mt-3 text-center">
-                            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+                            <p>Belum punya akun? <a href="{{ route('auth.register') }}">Daftar di sini</a></p>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Masuk</button>

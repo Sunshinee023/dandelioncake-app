@@ -1,23 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1 class="text-center mb-5">TABEL PELANGGAN</h1>
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/tabel.css') }}">
+@endpush
+
+<div class="card-header">
+    <h1>DAFTAR PELANGGAN</h1>
+    <a href="{{ route('admin.profil.create') }}" class="btn btn-primary">+ Tambah Data</a>
+</div>
 
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-
-        <a href="{{ route('admin.profil.create') }}" class="btn btn-primary mb-3">+ Tambah Data</a>
-
-        <table class="table table-bordered table-striped table-hover align-middle">
+<div class="container-fluid d-flex justify-content-center">
+        
+        <table class="table table-bordered table-striped table-hover align-middle" style="width: 100%;">
             <thead class="table-dark">
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
                     <th>Foto Profil</th>
+                    <th>Nama</th>
                     <th>Alamat</th>
                     <th>Telepon</th>
                     <th>Role</th>
@@ -28,8 +33,15 @@
                 @forelse ($profil as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->gambar ?? '-' }}</td>
-                        <td>{{ $item->user->name ?? 'Tidak ditemukan' }}</td> <!-- Menampilkan nama user -->
+                        <td>
+                            @if($item->gambar)
+                                <img src="{{ asset('images/profil/' . $item->gambar) }}" alt="Foto Profil" 
+                                    style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>{{ $item->user->name ?? 'Tidak ditemukan' }}</td>
                         <td>{{ $item->alamat ?? '-' }}</td>
                         <td>{{ $item->telepon ?? '-' }}</td>
                         <td>{{ ucfirst($item->role) }}</td>
@@ -44,10 +56,12 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Tidak ada data profil.</td>
+                        <td colspan="7" class="text-center">Tidak ada data profil.</td>
                     </tr>
                 @endforelse
             </tbody>
+
         </table>
+        
     </div>
 @endsection

@@ -1,13 +1,19 @@
 @extends('layouts.app')
-
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+@endpush
 @section('content')
 <div class="card">
     <div class="card-body">
         <center><h1>TAMBAH DATA PROFIL</h1></center>
-        <form action="{{ route('admin.profil.store') }}" method="post">
+        <form action="{{ route('admin.profil.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
-            <!-- Nama User (user_id) -->
+            <div class="mb-3">
+                <label for="gambar">Pilih Gambar</label>
+                <input type="file" name="gambar" class="form-control" accept="image/*" required>
+            </div>
+
             <div class="mb-3">
                 <label for="user_id">Nama User</label>
                 <select class="form-select" name="user_id" id="user_id" required>

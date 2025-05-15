@@ -1,0 +1,76 @@
+/* Tambahkan CSS berikut dalam file layout kamu */
+table {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+}
+
+thead {
+    background-color: #F9A7C2; /* Pink Coquette */
+    color: white;
+}
+
+tbody tr {
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f2f2f2; /* Hover effect */
+}
+
+.btn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.container {
+    padding-top: 20px;
+}
+
+/* Responsif untuk tampilan mobile */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+}

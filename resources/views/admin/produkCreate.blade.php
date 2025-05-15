@@ -1,15 +1,24 @@
 @extends('layouts.app')
-
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+@endpush
 @section('content')
 <div class="card">
     <div class="card-body">
         <center><h1>TAMBAH DATA PRODUK</h1></center>
-        <form action="{{ route('admin.produk.store') }}" method="post">
+        <form action="{{ route('admin.produk.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
-                <label for="gambar">URL Gambar</label>
-                <input type="url" name="gambar" class="form-control" placeholder="Masukkan URL gambar" required>
+                <label for="gambar">Pilih Gambar</label>
+                <!-- Input file untuk memilih gambar dari galeri -->
+                <input type="file" name="gambar" class="form-control" accept="image/*" required>
+                
+                <!-- Menampilkan gambar jika sudah ada (untuk edit produk) -->
+                @if(isset($products->image))
+                    <img src="{{ asset('images/products/'.$products->image) }}" alt="{{ $products->nama_kue }}" 
+                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                @endif
             </div>
 
             <div class="mb-3">

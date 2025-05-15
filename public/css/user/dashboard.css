@@ -1,0 +1,166 @@
+/* Reset dan font */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Georgia", serif;
+    background: #fff;
+    color: #4f4f5e;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #c2a378;
+}
+
+.menu-icon {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.logo {
+    font-family: "Georgia", serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #c2a378;
+    user-select: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.signin {
+    color: #c2a378;
+    text-decoration: none;
+}
+
+.language-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: #c2a378;
+}
+
+.language-select .flag {
+    width: 18px;
+    height: 12px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    margin-left: 2px;
+}
+
+.search-btn,
+.cart-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #c2a378;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+/* Main content */
+.main-content {
+    max-width: 1100px;
+    margin: 60px auto 40px;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-family: "Georgia", serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: #4f4f5e;
+    margin-bottom: 30px;
+    user-select: none;
+}
+
+/* Slider */
+.slider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.slider-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #808080;
+    cursor: pointer;
+    user-select: none;
+    width: 40px;
+    height: 80px;
+}
+
+.slider-btn:hover {
+    color: #4f4f5e;
+}
+
+.slider-items {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.slider-items::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Card */
+.card {
+    flex: 0 0 220px;
+    background: #fff;
+    text-align: center;
+    user-select: none;
+}
+
+.card img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+}
+
+.card-info {
+    margin-top: 10px;
+    color: #4f4f5e;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.card-info h3 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.card-info h3 small {
+    font-weight: 300;
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #4f4f5e;
+}
+
+.price {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4f4f5e;
+}

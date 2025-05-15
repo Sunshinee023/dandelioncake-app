@@ -11,7 +11,7 @@ class PencarianController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->input('keyword');
-        $products = Product::where('name', 'like', "%{$keyword}%")->get();
+        $product = Product::where('name', 'like', "%{$keyword}%")->get();
 
         return view('user.pencarian', compact('products', 'keyword'));
     }

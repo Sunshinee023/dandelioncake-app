@@ -11,28 +11,23 @@ use App\Http\Controllers\Controller;
 class TransaksiController extends Controller
 {
     public function index()
-{
-    $transaksi = Transaksi::with(['pelanggan', 'product'])->get();
-    foreach ($transaksi as $item) {
-        $item->pelanggan_name = $item->pelanggan->user->name; }
-    return view('admin.transaksi', compact('transaksi'));
-}
- 
- 
+    {
+        $transaksi = Transaksi::with(['pelanggan.user', 'product'])->get();
+        return view('admin.transaksi', compact('transaksi'));
+    }
+
     public function create()
     {
-        $pelanggan = Pelanggan::all(); // ganti nama variabel agar sesuai dengan view
-        $product = Product::all(); // jangan lupa ambil product juga
-
-        return view('admin.transaksiCreate', compact('profil', 'product'));
+        $pelanggan = Pelanggan::with('user')->get();
+        $product = Product::all();
+        return view('admin.transaksiCreate', compact('pelanggan', 'product'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'pelanggan_id' => 'required|exists:pelanggan,id',
-            'produk_id' => 'required|exists:product,id', 
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'produk_id' => 'required|exists:product,id',
             'total_harga' => 'required|numeric',
             'status' => 'required|in:pending,diproses,dikirim,selesai',
             'tanggal_transaksi' => 'nullable|date',
@@ -46,8 +41,9 @@ class TransaksiController extends Controller
     public function edit($id)
     {
         $transaksi = Transaksi::findOrFail($id);
-        $pelanggan = Pelanggan::all();
-        return view('admin.transaksiEdit', compact('transaksi', 'pelanggan'));
+        $pelanggan = Pelanggan::with('user')->get();
+        $product = Product::all();
+        return view('admin.transaksiEdit', compact('transaksi', 'pelanggan', 'product'));
     }
 
     public function update(Request $request, $id)
@@ -55,7 +51,6 @@ class TransaksiController extends Controller
         $validated = $request->validate([
             'pelanggan_id' => 'required|exists:pelanggan,id',
             'produk_id' => 'required|exists:product,id',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'total_harga' => 'required|numeric',
             'status' => 'required|in:pending,diproses,dikirim,selesai',
             'tanggal_transaksi' => 'nullable|date',

@@ -7,76 +7,97 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    @stack('styles')
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <!-- Custom Styling -->
+     
     <style>
-        .cashback-bar {
-    background-color: #f4f4f4;
-    padding: 5px 0;
-    text-align: center;
-    font-size: 14px;
-    color: #333;
+       @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap'); /* font mirip Lulus */
+
+.navbar {
+  font-family: 'poppins';
+  border-bottom: 1px solid #ddd;
+  background-color: #FFC6C4;
+  padding: 10px 30px;
 }
 
-.main-navbar {
-    background-color: #F9A7C2; /* Pink Coquette */
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
+.navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+
 }
 
-.navbar-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.shop-cake {
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.navbar-logo img {
-    height: 100px;
+.reload-icon {
+  font-size: 12px;
 }
 
-.navbar-links {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex: 1;
+.logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: black;
+}
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  outline: none;
+}
+
+.navbar-bottom {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .navbar-links a {
-    text-decoration: none;
-    color: #fff; /* White for better contrast on pink */
-    font-size: 14px;
-    font-weight: 400;
-    text-transform: uppercase;
+  margin: 0 15px;
+  text-decoration: none;
+  color: #6C362A;
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .navbar-links a:hover {
-    color: #1e1e1e;
-    font-weight: 500;
+  color: #f0f0f0;
 }
-
 .btn-logout {
-    color: white;
-    background-color: #dc3545; /* Bootstrap red */
-    border: none;
-    padding: 8px 12px;
-    font-size: 13px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        color: white;
+        background-color: #dc3545; /* Bootstrap red */
+        border: none;
+        padding: 8px 12px;
+        font-size: 13px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'poppins';
+    }
 
 .btn-logout:hover {
-    background-color: #b02a37; /* darker red */
-}
+    background-color: #b02a37; 
+} 
 
 
     </style>
@@ -85,46 +106,45 @@
     <div class="min-h-screen bg-gray-100">
         <!-- Navbar -->
 <!-- Custom Navbar -->
-<nav class="main-navbar">
-    <div class="navbar-container">
-        <!-- Logo -->
-        <a class="navbar-logo">
-            <img src="{{ asset('storage/logo.png') }}" alt="Logo">
-        </a>
-
-        <!-- Menu -->
-        <div class="navbar-links">
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-            <a href="{{ route('admin.produk.index') }}">Manajemen Produk</a>
-            <a href="{{ route('admin.keranjang.index') }}">Manajemen Keranjang</a>
-            <a href="{{ route('admin.transaksi.index') }}">Manajemen Transaksi</a>
-            <a href="{{ route('admin.pembayaran.index') }}">Manajemen Pembayaran</a>
-        </div>
-
-        <!-- Logout -->
-        <div>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="navbar-top">
+    <a href="#" class="shop-cake"><i class="reload-icon">⟳</i> CAKE SHOP</a>
+    <div class="logo">dandelion cake</div>
+    <div class="navbar-icons">
+      <!-- <input type="text" class="search" placeholder="Search" />
+      <i class="icon">🔍</i> -->
+      <div>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="btn-logout">Logout</button>
             </form>
         </div>
     </div>
+  </div>
+
+  <div class="navbar-bottom">
+    <div class="navbar-links">
+      <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+      <a href="{{ route('admin.produk.index') }}">Manajemen Produk</a>
+      <a href="{{ route('admin.keranjang.index') }}">Manajemen Keranjang</a>
+      <a href="{{ route('admin.profil.index') }}">Manajemen Pelanggan</a>
+      <a href="{{ route('admin.transaksi.index') }}">Manajemen Transaksi</a>
+      <a href="{{ route('admin.pembayaran.index') }}">Manajemen Pembayaran</a>
+    </div>
+
+    <!-- Logout -->
+        
+  </div>
+</div>
+    </div>
 </nav>
-
-
-        <!-- Optional Page Heading -->
-        @hasSection('header')
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    @yield('header')
-                </div>
-            </header>
-        @endif
 
                 <!-- Main Content -->
                 <div class="col-md-9">
                     <main>
                         @yield('content')
+                        <table class="table table-dark table-striped text-center" text-align="center">
                     </main>
                 </div>
             </div>

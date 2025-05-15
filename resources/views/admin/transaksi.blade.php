@@ -1,19 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Daftar Transaksi</h2>
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/tabel.css') }}">
+@endpush
 
+<div class="card-header">
+    <h1>DAFTAR TRANSAKSI</h1>
+    <a href="{{ route('admin.transaksi.create') }}" class="btn btn-primary mb-3">+ Tambah Data</a>
+</div>
+    
     @if (session()->has('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <a href="{{ route('admin.transaksi.create') }}" class="btn btn-primary mb-3">+ Tambah Transaksi</a>
-
+<div class="container-fluid d-flex justify-content-center">
     <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover align-middle">
+        <table class="table table-dark table-striped" style="width: 100%;">
             <thead class="table-dark">
                 <tr>
                     <th>No</th>
@@ -30,13 +35,13 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <!-- Nama Pelanggan -->
-                        <td>{{ $item->pelanggan->name ?? 'Tidak Diketahui' }}</td> <!-- Tampilkan nama pelanggan -->
+                        <td>{{ $item->pelanggan->user->name ?? 'Tidak Diketahui' }}</td> 
                         <!-- Nama Produk -->
-                        <td>{{ $item->product->nama_kue ?? '-' }}</td> <!-- Tampilkan nama produk -->
+                        <td>{{ $item->product->nama_kue ?? '-' }}</td> 
                         <!-- Tanggal Transaksi -->
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d M Y') }}</td>
                         <!-- Total Harga -->
-                        <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td> <!-- Tampilkan total harga -->
+                        <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td> 
                         <!-- Status Transaksi -->
                         <td>
                             <span class="badge 

@@ -4,7 +4,7 @@
 <div class="container">
     <h2 class="mb-4">Keranjang Saya</h2>
     
-    <form action="{{ route('user.keranjang.checkout') }}" method="POST">
+    <form action="{{ route('user.keranjang') }}" method="POST">
         @csrf
         <div class="table-responsive">
             <table class="table align-middle">

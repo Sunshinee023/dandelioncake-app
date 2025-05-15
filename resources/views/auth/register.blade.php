@@ -35,7 +35,7 @@
                     <h4>Daftar Akun</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('auth.register') }}">
                         @csrf
 
                         <div class="mb-3">
@@ -64,7 +64,7 @@
             </div>
 
             <div class="text-center mt-3">
-                Sudah punya akun? <a href="{{ route('login') }}">Masuk di sini</a>
+                Sudah punya akun? <a href="{{ route('auth.login') }}">Masuk di sini</a>
             </div>
         </div>
     </div>

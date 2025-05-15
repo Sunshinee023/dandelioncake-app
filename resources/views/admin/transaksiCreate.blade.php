@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+@endpush
 @section('content')
 <div class="card mt-4">
     <div class="card-body">
@@ -7,13 +9,14 @@
         <form action="{{ route('admin.transaksi.store') }}" method="post">
             @csrf
 
-            <!-- Pelanggan -->
             <div class="mb-3">
                 <label for="pelanggan_id" class="form-label">Pelanggan</label>
                 <select class="form-select" name="pelanggan_id" id="pelanggan_id" required>
                     <option disabled selected>-- Pilih Pelanggan --</option>
-                    @foreach ($profil as $p)
-                        <option value="{{ $p->id }}">{{ $p->name }}</option>
+                    @foreach ($pelanggan as $p)
+                        <option value="{{ $p->id }}">
+                            {{ $p->user->name ?? 'Nama user tidak tersedia' }}
+                        </option>
                     @endforeach
                 </select>
             </div>

@@ -15,12 +15,17 @@ use App\Http\Controllers\User\KeranjanguserController;
 use App\Http\Controllers\User\PencarianController;
 use App\Http\Controllers\User\ProfileController;
 
+// Tampilkan form login
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('auth.login');
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+// Proses login
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('auth.login.submit');
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+// Tampilkan form register
+Route::get('/register', [App\Http\Controllers\AuthController::class, 'showRegister'])->name('auth.register');
+
+// Proses register
+Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('auth.register.submit');
 
 Route::post('/logout', function () {
     Session::flush();
@@ -55,7 +60,7 @@ Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function 
     Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
     Route::get('/produk/{id}/edit', [ProductController::class, 'edit'])->name('produk.edit');
     Route::put('/produk/{id}', [ProductController::class, 'update'])->name('produk.update');
-    Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy');
+    Route::delete('produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy');
 
     // Keranjang
     Route::get('/keranjang', [KeranjangController::class,'index'])->name('keranjang.index');
@@ -95,24 +100,17 @@ Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function 
 // User routes
 Route::middleware(['isCustomer'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-Route::prefix('user')->middleware('auth')->group(function () {
-    // Halaman Utama
-    Route::get('/halaman-utama', [HalamanUtamaController::class, 'index'])->name('user.halaman_utama');
 
-    // Keranjang
-    Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('user.keranjang.index');
-    Route::post('/keranjang', [KeranjanguserController::class, 'store'])->name('user.keranjang.store');
-    Route::delete('/keranjang/{id}', [KeranjanguserController::class, 'destroy'])->name('user.keranjang.destroy');
-
-    // Pencarian
-    Route::get('/pencarian', [PencarianController::class, 'index'])->name('user.pencarian');
+    Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('keranjang.index');
+    Route::post('/keranjang', [KeranjanguserController::class, 'store'])->name('keranjang.store');
+    Route::delete('/keranjang/{id}', [KeranjanguserController::class, 'destroy'])->name('keranjang.destroy');
+    Route::get('/keranjang/create/{id}', [KeranjanguserController::class, 'create'])->name('keranjang.create');
+    Route::get('/beli/sekarang/{id}', [TransaksiController::class, 'beliSekarang'])->name('beli.sekarang');
+    Route::get('/bayar/sekarang/{id}', [PembayaranController::class, 'bayarSekarang'])->name('bayar.sekarang');
+    Route::get('/pencarian', [PencarianController::class, 'index'])->name('pencarian');
 
     // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile.index');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 

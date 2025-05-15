@@ -13,15 +13,13 @@ class PembayaranController extends Controller
 {
     
     public function index() {
-        $pembayaran = Pembayaran::with('pelanggan', 'product', 'transaksi')->get();
-        foreach ($pembayaran as $item) {
-        $item->pelanggan_name = $item->pelanggan->user->name; }
+        $pembayaran = Pembayaran::with(['pelanggan.user', 'product', 'transaksi'])->get();
         return view('admin.pembayaran', compact('pembayaran'));
     }
 
     public function create() {
         return view('admin.pembayaranCreate', [
-            'pelanggan' => Pelanggan::all(),
+            'pelanggan' => Pelanggan::with('user')->get(),
             'product' => Product::all(),
             'transaksi' => Transaksi::all(),
         ]);
@@ -35,7 +33,7 @@ class PembayaranController extends Controller
             'total_harga' => 'required|numeric',
             'metode_pembayaran' => 'required|string',
             'alamat_pengiriman' => 'required|string',
-            'status' => 'required|in:pending,sudah dibayar, belum dibayar',
+            'status_pembayaran' => 'required|in:pending,sudah dibayar,belum dibayar',
         ]);
         $validated['tanggal_checkout'] = now();
         Pembayaran::create($validated);
@@ -45,12 +43,11 @@ class PembayaranController extends Controller
 
     public function edit($id) {
         $pembayaran = Pembayaran::findOrFail($id);
-        return view('admin.pembayaranEdit', [
-            'pembayaran' => $pembayaran,
-            'pelanggan' => Pelanggan::all(),
-            'product' => Product::all(),
-            'transaksi' => Transaksi::all(),
-        ]);
+        $pelanggan = Pelanggan::with('user')->get();
+        $product = Product::all();
+        $transaksi = Transaksi::all();
+
+        return view('admin.pembayaranEdit', compact('pembayaran', 'pelanggan', 'product', 'transaksi'));
     }
 
     public function update(Request $request, $id) {
@@ -61,7 +58,7 @@ class PembayaranController extends Controller
             'total_harga' => 'required|numeric',
             'metode_pembayaran' => 'required|string',
             'alamat_pengiriman' => 'required|string',
-            'status' => 'required|in:pending,sudah dibayar, belum dibayar',
+            'status_pembayaran' => 'required|in:pending,sudah dibayar,belum dibayar',
         ]);
 
         $pembayaran = Pembayaran::findOrFail($id);
