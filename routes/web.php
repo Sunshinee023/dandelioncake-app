@@ -3,28 +3,27 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\User\UserDashboardController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\KeranjangController;
+use App\Http\Controllers\ProductuserController;
 use App\Http\Controllers\Admin\ProfilController;
+use App\Http\Controllers\User\ProfileuserController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\User\PencarianController;
+use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\User\TransaksiuserController;
 use App\Http\Controllers\Admin\PembayaranController;
 use App\Http\Controllers\User\HalamanUtamaController;
 use App\Http\Controllers\User\KeranjanguserController;
-use App\Http\Controllers\User\PencarianController;
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
-// Tampilkan form login
+
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('auth.login');
 
-// Proses login
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('auth.login.submit');
 
-// Tampilkan form register
 Route::get('/register', [App\Http\Controllers\AuthController::class, 'showRegister'])->name('auth.register');
 
-// Proses register
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('auth.register.submit');
 
 Route::post('/logout', function () {
@@ -101,16 +100,21 @@ Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function 
 Route::middleware(['isCustomer'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('keranjang.index');
-    Route::post('/keranjang', [KeranjanguserController::class, 'store'])->name('keranjang.store');
-    Route::delete('/keranjang/{id}', [KeranjanguserController::class, 'destroy'])->name('keranjang.destroy');
-    Route::get('/keranjang/create/{id}', [KeranjanguserController::class, 'create'])->name('keranjang.create');
-    Route::get('/beli/sekarang/{id}', [TransaksiController::class, 'beliSekarang'])->name('beli.sekarang');
-    Route::get('/bayar/sekarang/{id}', [PembayaranController::class, 'bayarSekarang'])->name('bayar.sekarang');
-    Route::get('/pencarian', [PencarianController::class, 'index'])->name('pencarian');
+    Route::get('/pencarian', [ProductuserController::class, 'search'])->name('pencarian');
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('keranjang.index');
+    Route::post('/keranjang/store', [KeranjanguserController::class, 'store'])->name('keranjang.store');
+    Route::delete('/keranjang/hapusterpilih', [KeranjanguserController::class, 'hapusTerpilih'])->name('keranjang.hapusTerpilih');
+
+    Route::get('/produk/{id}', [ProductuserController::class, 'show'])->name('produk.show');
+    Route::get('/beli/sekarang/{id}', [TransaksiuserController::class, 'beliSekarang'])->name('belisekarang');
+
+    Route::get('/profile', [ProfileuserController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileuserController::class, 'update'])->name('profile.update');
+
+
+    Route::get('/checkout', [TransaksiuserController::class, 'checkoutDariKeranjang'])->name('checkout');
+    Route::post('/bayar-dari-keranjang', [TransaksiuserController::class, 'bayarDariKeranjang'])->name('transaksi.keranjangBayar');
+    Route::post('/bayar-sekarang', [TransaksiuserController::class, 'bayarSekarang'])->name('transaksi.store');
 });
 
