@@ -20,10 +20,21 @@ class UserDashboardController extends Controller
         });
     }
 
-    public function index()
-    {
-        $currentDate = Carbon::now();
-    $product = Product::paginate(8); // Menggunakan pagination
-    return view('user.dashboard', compact('currentDate', 'product'));
+    public function index(Request $request)
+{
+    $currentDate = Carbon::now();
+
+    $query = $request->input('q'); // ambil keyword dari search bar
+
+    if ($query) {
+        $product = Product::where('nama_kue', 'like', "%{$query}%")
+            ->orWhere('varian_kue', 'like', "%{$query}%")
+            ->paginate(8);
+    } else {
+        $product = Product::paginate(8);
     }
+
+    return view('user.dashboard', compact('currentDate', 'product', 'query'));
+}
+
 }

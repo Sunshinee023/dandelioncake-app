@@ -52,46 +52,36 @@ public function register(Request $request)
         return view('auth.login');
     }
 
-    // Proses login
     public function login(Request $request)
     {
-        // Validasi input email dan password
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
-        // Cari user berdasarkan email
         $user = User::where('email', $request->email)->first();
 
-        // Cek apakah user ditemukan dan password cocok
         if (!$user || !Hash::check($request->password, $user->password)) {
             return back()->withErrors(['login_error' => 'Email atau password salah.'])->withInput();
         }
 
-        // Simpan data user ke session
         Session::put('user_id', $user->id);
         Session::put('user_name', $user->name);
         Session::put('user_role', $user->role);
 
-        // Redirect berdasarkan role
         if ($user->role === 'admin') {
             return redirect()->route('admin.dashboard');
         } elseif ($user->role === 'customer') {
             return redirect()->route('user.dashboard');
         }
 
-        // Default redirect jika role tidak dikenali
         return redirect('/');
     }
 
-    // Logout
     public function logout(Request $request)
     {
-        // Hapus semua data session
         Session::flush();
 
-        // Redirect ke halaman login
         return redirect()->route('login');
     }
 }

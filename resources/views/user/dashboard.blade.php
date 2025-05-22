@@ -1,6 +1,11 @@
 @extends('layouts.user')
 
 @section('content')
+
+@if(isset($keyword))
+    <h5>Hasil pencarian untuk: <strong>{{ $keyword }}</strong></h5>
+@endif
+
 <div class="container">
 
     <div class="row">
@@ -36,9 +41,15 @@
         </button>
     </form>
 
-    <a href="{{ route('user.checkout', $produk->id) }}" class="btn btn-pink" style="padding: 5px 12px; font-size: 14px;">
-        🛍️ Beli
-    </a>
+    <form action="{{ route('user.transaksi.beli') }}" method="POST" class="d-inline">
+        @csrf
+        <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+        <input type="hidden" name="jumlah" value="1"> {{-- default jumlah 1 --}}
+        <button type="submit" class="btn btn-pink" style="padding: 5px 12px; font-size: 14px;">
+            🛍️ Beli
+        </button>
+    </form>
+
 
 </div>
 

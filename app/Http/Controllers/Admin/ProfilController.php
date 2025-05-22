@@ -64,7 +64,6 @@ class ProfilController extends Controller
     $profil = Pelanggan::findOrFail($id);
 
     if ($request->hasFile('gambar')) {
-        // Hapus gambar lama jika ada
         if ($profil->gambar && file_exists(public_path('images/profil/' . $profil->gambar))) {
             unlink(public_path('images/profil/' . $profil->gambar));
         }

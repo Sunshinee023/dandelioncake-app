@@ -1,165 +1,129 @@
-/* public/css/profile.css */
 .profile-page {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    padding: 2rem;
-    background: #fff;
-    min-height: 80vh;
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Poppins', sans-serif;
+    color: #6C362A; /* coklat */
+    background-color: #fff0f6; /* soft pink */
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(255, 182, 193, 0.3);
+    padding: 30px;
 }
 
 .profile-card {
     display: flex;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 900px;
-    max-width: 100%;
-    font-family: 'Poppins', sans-serif;
-}
-
-.profile-left {
-    background: #FFC6C4;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
+    gap: 40px;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    color: #FFC6C4;
-    flex: 1;
+}
+
+.profile-left .card {
+    background-color: #ffe6f0;
+    border-radius: 20px;
+    padding: 20px;
     text-align: center;
+    width: 260px;
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.5);
 }
 
 .profile-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 140px;
+    height: 140px;
     object-fit: cover;
-    margin-bottom: 1rem;
-    border: 4px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    border: 4px solid #FFC6C4;
+    margin-bottom: 15px;
 }
 
 .default-img {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    background-color: #FFC6C4;
-    margin-bottom: 1rem;
-    border: 4px solid rgba(255, 255, 255, 0.6);
+    background: #ffc6c4aa;
+    display: inline-block;
+    margin-bottom: 15px;
 }
 
-.card h2 {
-    margin: 0.5rem 0 0;
-    font-weight: 600;
-    font-size: 1.8rem;
+.profile-left h2 {
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    color: #e0137a; /* pink accent */
 }
 
 .role {
-    margin-top: 0.3rem;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
     font-weight: 600;
-    opacity: 0.8;
+    font-size: 1rem;
+    color: #b23b62;
+    margin-bottom: 15px;
 }
 
 .social-icons {
-    margin-top: 1.5rem;
     display: flex;
-    gap: 15px;
     justify-content: center;
+    gap: 15px;
 }
 
 .social-icons i {
-    font-size: 1.4rem;
-    color: #555;
+    font-size: 18px;
+    color: #d6336c;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .social-icons i:hover {
-    color: #ffd1dc;
+    color: #e0137a;
 }
 
 .profile-right {
-    flex: 2;
-    padding: 2rem 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: #333;
+    flex: 1;
+    min-width: 280px;
 }
 
 .profile-right h1 {
-    font-size: 3.5rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin: 0;
+    color: #e0137a;
+    margin-bottom: 5px;
 }
 
 .profile-right h1 span {
-    color: #f56991;
+    color: #FFC6C4;
 }
 
-.profile-right h4 {
-    margin: 1rem 0 2rem;
-    font-weight: 500;
-    color: #555;
+.profile-right h5 {
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: #6c362acc;
 }
 
 .btn-group {
-    margin-bottom: 2rem;
-}
-
-.btn-resume,
-.btn-projects {
-    padding: 0.6rem 1.8rem;
-    margin-right: 10px;
-    border: none;
-    border-radius: 25px;
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    text-decoration: none;
-    display: inline-block;
+    margin-bottom: 25px;
 }
 
 .btn-resume {
     background-color: #FFC6C4;
-    color:#6C362A;
+    color: #6C362A;
+    padding: 10px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
-.btn-projects {
-    background-color: #333;
+.btn-resume:hover {
+    background-color: #e0137a;
+    color: #fff;
 }
 
-.btn-resume:hover,
-.btn-projects:hover {
-    opacity: 0.85;
-    transform: scale(1.05);
+.profile-right p {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
-/* Responsive tweaks */
-@media (max-width: 768px) {
-    .profile-card {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .profile-left,
-    .profile-right {
-        flex: none;
-        padding: 1.5rem;
-    }
-
-    .profile-right {
-        padding-top: 0;
-    }
-
-    .profile-right h1 {
-        font-size: 2.5rem;
-    }
+.profile-right p strong {
+    color: #b23b62;
 }

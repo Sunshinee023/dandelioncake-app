@@ -3,10 +3,11 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Product;
 use App\Models\Keranjang;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;  // <-- Import di sini, di atas
+use Illuminate\Support\Facades\Session; 
 
 class KeranjanguserController extends Controller
 {
@@ -56,14 +57,14 @@ class KeranjanguserController extends Controller
 
         if ($item) {
             $item->jumlah += $jumlah;
-            $item->total_harga = $item->jumlah * $harga;  // update total_harga
+            $item->total_harga = $item->jumlah * $harga; 
             $item->save();
         } else {
             Keranjang::create([
                 'pelanggan_id' => $userId,
                 'produk_id' => $productId,
                 'jumlah' => $jumlah,
-                'total_harga' => $totalHarga,   // pastikan total_harga diisi
+                'total_harga' => $totalHarga,  
             ]);
         }
 
@@ -72,23 +73,27 @@ class KeranjanguserController extends Controller
 
     public function hapusTerpilih(Request $request)
 {
-    $userId = Session::get('user_id');
-
+    $userId = session('user_id');
     if (!$userId) {
         return redirect()->route('auth.login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    $selectedItems = $request->input('selected_items', []);
-
-    if (empty($selectedItems)) {
-        return redirect()->back()->with('error', 'Tidak ada data yang dipilih.');
+    $pelanggan = Pelanggan::where('user_id', $userId)->first();
+    if (!$pelanggan) {
+        return redirect()->route('user.keranjang.index')->with('error', 'Pelanggan tidak ditemukan.');
     }
 
-    Keranjang::where('pelanggan_id', $userId)
-        ->whereIn('id', $selectedItems)
+    $produkIds = $request->input('produk_id', []);
+
+    if (empty($produkIds)) {
+        return redirect()->back()->with('error', 'Tidak ada produk yang dipilih.');
+    }
+
+    Keranjang::where('pelanggan_id', $pelanggan->id)
+        ->whereIn('produk_id', $produkIds)
         ->delete();
 
-    return redirect()->route('user.keranjang.index')->with('success', 'Data terpilih berhasil dihapus.');
+    return redirect()->route('user.keranjang.index')->with('success', 'Produk terpilih berhasil dihapus.');
 }
 
 }

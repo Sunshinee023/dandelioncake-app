@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\User\TransaksiuserController;
 use App\Http\Controllers\Admin\PembayaranController;
+use App\Http\Controllers\User\PembayaranuserController;
 use App\Http\Controllers\User\HalamanUtamaController;
 use App\Http\Controllers\User\KeranjanguserController;
 use App\Http\Controllers\User\UserDashboardController;
@@ -100,21 +101,25 @@ Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function 
 Route::middleware(['isCustomer'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/pencarian', [ProductuserController::class, 'search'])->name('pencarian');
+    Route::get('/pencarian', [UserDashboardController::class, 'index'])->name('pencarian');
 
     Route::get('/keranjang', [KeranjanguserController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang/store', [KeranjanguserController::class, 'store'])->name('keranjang.store');
     Route::delete('/keranjang/hapusterpilih', [KeranjanguserController::class, 'hapusTerpilih'])->name('keranjang.hapusTerpilih');
 
-    Route::get('/produk/{id}', [ProductuserController::class, 'show'])->name('produk.show');
-    Route::get('/beli/sekarang/{id}', [TransaksiuserController::class, 'beliSekarang'])->name('belisekarang');
-
     Route::get('/profile', [ProfileuserController::class, 'index'])->name('profile.index');
-    Route::post('/profile', [ProfileuserController::class, 'update'])->name('profile.update');
+    Route::get('user/profile/edit', [ProfileuserController::class, 'edit'])->name('profile.edit');
+    Route::put('user/profile/update/{id}', [ProfileuserController::class, 'update'])->name('profile.update');
+
+    Route::get('/transaksi', [TransaksiuserController::class, 'index'])->name('transaksi.index');
+    Route::post('/transaksi', [TransaksiuserController::class, 'store'])->name('transaksi.store');
+    Route::post('/beli', [TransaksiuserController::class, 'beli'])->name('transaksi.beli');
 
 
-    Route::get('/checkout', [TransaksiuserController::class, 'checkoutDariKeranjang'])->name('checkout');
-    Route::post('/bayar-dari-keranjang', [TransaksiuserController::class, 'bayarDariKeranjang'])->name('transaksi.keranjangBayar');
-    Route::post('/bayar-sekarang', [TransaksiuserController::class, 'bayarSekarang'])->name('transaksi.store');
+    // Pembayaran
+    Route::get('pembayaran', [PembayaranuserController::class, 'index'])->name('pembayaran.index');
+    Route::post('pembayaran/{id}/bayar', [PembayaranuserController::class, 'bayar'])->name('pembayaran.bayar');
+
+
 });
 

@@ -2,61 +2,82 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;  // <--- ini penting
 use App\Models\User;
 use App\Models\Pelanggan;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;  // <--- ini penting
 
 class ProfileuserController extends Controller
 {
     public function index()
 {
-     $userId = Session::get('user_id');
-
+    $userId = session('user_id'); // ambil user_id dari session
     if (!$userId) {
-        return redirect()->route('auth.login')->with('error', 'Silakan login terlebih dahulu.');
+        return redirect()->route('login')->with('error', 'Silakan login dulu ya');
+    }
+    $user = User::with('pelanggan')->find($userId);
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'User tidak ditemukan');
+    }
+    return view('user.profile', compact('user'));
+}
+
+public function edit()
+{
+    $userId = session('user_id');
+    if (!$userId) {
+        return redirect()->route('login')->with('error', 'Silakan login dulu ya');
+    }
+    $user = User::with('pelanggan')->find($userId);
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'User tidak ditemukan');
+    }
+    return view('user.profileedit', compact('user'));
+}
+
+public function update(Request $request)
+{
+    $userId = session('user_id');
+    if (!$userId) {
+        return redirect()->route('login')->with('error', 'Silakan login dulu ya');
     }
 
-    $user = User::find($userId);
-    $pelanggan = $user ? $user->pelanggan : null;
+    $user = User::findOrFail($userId);
 
-    return view('user.profile', compact('user', 'pelanggan'));
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'alamat' => 'nullable|string|max:500',
+        'telepon' => 'nullable|string|max:20',
+    ]);
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->save();
+
+    $pelanggan = $user->pelanggan ?: new Pelanggan();
+    $pelanggan->user_id = $user->id;
+
+    if ($request->hasFile('gambar')) {
+        if ($pelanggan->gambar && Storage::exists('public/images/profil/' . $pelanggan->gambar)) {
+            Storage::delete('public/images/profil/' . $pelanggan->gambar);
+        }
+
+        $file = $request->file('gambar');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/images/profil', $filename);
+        $pelanggan->gambar = $filename;
+    }
+
+    $pelanggan->alamat = $request->alamat;
+    $pelanggan->telepon = $request->telepon;
+    $pelanggan->save();
+
+    return redirect()->route('user.profile.index')->with('success', 'Profil berhasil diperbarui.');
 }
 
 
-    public function update(Request $request)
-    {
-        $user = Auth::user();
-        $pelanggan = $user->pelanggan;
-
-        $validatedUser = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6|confirmed',
-        ]);
-
-        $validatedPelanggan = $request->validate([
-            // Tambahkan validasi jika ada field pelanggan yang ingin diperbarui
-            // contoh: 'alamat' => 'nullable|string|max:255',
-        ]);
-
-        // Update data user
-        $user->name = $validatedUser['name'];
-        $user->email = $validatedUser['email'];
-
-        if (!empty($validatedUser['password'])) {
-            $user->password = Hash::make($validatedUser['password']);
-        }
-
-        $user->save();
-
-        // Update data pelanggan jika ada
-        if ($pelanggan && !empty($validatedPelanggan)) {
-            $pelanggan->fill($validatedPelanggan);
-            $pelanggan->save();
-        }
-
-        return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
-}
