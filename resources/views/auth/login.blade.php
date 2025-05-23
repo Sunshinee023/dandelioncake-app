@@ -10,6 +10,17 @@
             height: 100px;
             padding: 5px 0;
         }
+        .btn-pink {
+            background-color: #FFC6C4 !important;
+            color: #6C362A !important;
+            border: none !important;
+        }
+
+        .btn-pink:hover {
+            background-color: #d81b60 !important;
+            color: #ffffff !important;
+        }
+
     </style>
 </head>
 <body class="bg-light">
@@ -58,7 +69,7 @@
                             <p>Belum punya akun? <a href="{{ route('auth.register') }}">Daftar di sini</a></p>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Masuk</button>
+                        <button type="submit" class="btn btn-pink w-100">Masuk</button>
                     </form>
                 </div>
             </div>

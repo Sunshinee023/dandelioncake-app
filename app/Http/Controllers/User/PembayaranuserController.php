@@ -79,5 +79,22 @@ class PembayaranuserController extends Controller
     return redirect()->route('user.pembayaran.index')->with('success', 'Pembayaran berhasil!');
 }
 
+public function riwayat()
+{
+    $userId = session('user_id');
+    if (!$userId) {
+        return redirect()->route('auth.login')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+    $pelanggan = Pelanggan::with('user')->where('user_id', $userId)->firstOrFail();
+
+    $riwayat = Pembayaran::with(['transaksi.product', 'pelanggan.user'])
+        ->where('pelanggan_id', $pelanggan->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('user.riwayat', compact('pelanggan', 'riwayat'));
+}
+
 
 }

@@ -9,6 +9,16 @@
             height: 100px;
             padding: 5px 0;
         }
+        .btn-pink {
+            background-color: #FFC6C4 !important;
+            color: #6C362A !important;
+            border: none !important;
+        }
+
+        .btn-pink:hover {
+            background-color: #d81b60 !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -58,7 +68,7 @@
                             <input type="password" name="password_confirmation" class="form-control" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                        <button type="submit" class="btn btn-pink w-100">Daftar</button>
                     </form>
                 </div>
             </div>

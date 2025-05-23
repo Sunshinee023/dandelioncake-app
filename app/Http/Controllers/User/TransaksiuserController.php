@@ -59,6 +59,7 @@ class TransaksiuserController extends Controller
             'total_harga' => $jumlah * $product->harga,
             'status' => 'pending',
         ]);
+
     }
 
     return redirect()->route('user.transaksi.index')->with('success', 'Transaksi berhasil disimpan. Silakan lanjutkan pembayaran.');
@@ -78,6 +79,9 @@ public function beli(Request $request)
         'total_harga' => $produk->harga * $request->jumlah,
         'status' => 'pending',
     ]);
+    Keranjang::where('pelanggan_id', $pelanggan->id)
+        ->where('produk_id', $produk->id)
+        ->delete();
 
     return redirect()->route('user.pembayaran.index')->with('success', 'Silakan lanjutkan ke pembayaran.');
 }

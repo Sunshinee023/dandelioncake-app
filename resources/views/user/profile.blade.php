@@ -12,7 +12,7 @@
         <div class="profile-left">
             <div class="card">
                 @if($user->pelanggan && $user->pelanggan->gambar)
-                    <img src="{{ asset('storage/images/profil/' . $user->pelanggan->gambar) }}" class="profile-img" alt="Foto Profil">
+                    <img src="{{ asset('images/profil/' . $user->pelanggan->gambar) }}" class="profile-img" alt="Foto Profil">
                 @else
                     <div class="profile-img default-img"></div>
                 @endif

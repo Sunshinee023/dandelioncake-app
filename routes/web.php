@@ -119,6 +119,8 @@ Route::middleware(['isCustomer'])->prefix('user')->name('user.')->group(function
     // Pembayaran
     Route::get('pembayaran', [PembayaranuserController::class, 'index'])->name('pembayaran.index');
     Route::post('pembayaran/{id}/bayar', [PembayaranuserController::class, 'bayar'])->name('pembayaran.bayar');
+    Route::get('/riwayat', [PembayaranuserController::class, 'riwayat'])->name('riwayat.index');
+
 
 
 });

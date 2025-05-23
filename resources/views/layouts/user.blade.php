@@ -149,8 +149,9 @@
 
                     <a href="{{ route('user.keranjang.index') }}" class="cart-icon">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge">0</span> 
                     </a>
+
+                    <a href="{{ route('user.riwayat.index') }}">Riwayat</a>
 
                     <a href="{{ route('user.profile.index') }}">Profil</a>
 

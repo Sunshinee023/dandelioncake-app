@@ -28,7 +28,7 @@
         <input type="file" id="gambar" name="gambar">
         @if($user->pelanggan && $user->pelanggan->gambar)
             <small>Gambar saat ini:</small><br>
-            <img src="{{ asset('storage/images/profil/' . $user->pelanggan->gambar) }}" alt="Foto Profil" style="width: 100px; border-radius: 50%; margin-top: 5px;">
+            <img src="{{ asset('images/profil/' . $user->pelanggan->gambar) }}" alt="Foto Profil" style="width: 100px; border-radius: 50%; margin-top: 5px;">
         @endif
         @error('gambar') <small class="text-danger">{{ $message }}</small> @enderror
 <br>

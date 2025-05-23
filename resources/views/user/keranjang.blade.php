@@ -48,13 +48,6 @@
             </table>
 
             <div class="d-flex justify-content-between">
-                <button type="submit" 
-                        formaction="{{ route('user.keranjang.hapusTerpilih') }}" 
-                        formmethod="POST" 
-                        onclick="return confirm('Yakin hapus produk terpilih?')"
-                        class="btn btn-danger">
-                    Hapus Produk Terpilih
-                </button>
 
                 <button type="submit" 
                         formaction="{{ route('user.transaksi.store') }}" 
@@ -68,11 +61,6 @@
 </div>
 
 <script>
-    // Fungsi untuk select/deselect semua checkbox
-    document.getElementById('select-all').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.produk-checkbox');
-        checkboxes.forEach(cb => cb.checked = this.checked);
-    });
 
     // Validasi sebelum submit form
     document.getElementById('form-keranjang').addEventListener('submit', function(e) {
